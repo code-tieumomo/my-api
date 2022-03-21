@@ -1,7 +1,9 @@
 <?php
 
 use App\Http\Controllers\AuthController;
-use Illuminate\Http\Request;
+use App\Http\Controllers\EventController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -20,9 +22,13 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::get('/user', function() {
         return Auth::user();
     });
+    Route::post('/user/update', [ProfileController::class, 'update']);
+    Route::post('/user/change-password', [ProfileController::class, 'changePassword']);
+
+    Route::get('/events', [EventController::class, 'index']);
 
     Route::post('/logout', [AuthController::class, 'logout'])->name('auth.logout');
-//    Route::resource('/items', ItemController::class);
+    Route::resource('users', UserController::class);
 });
 
 Route::post('/register', [AuthController::class, 'register'])->name('auth.register');
